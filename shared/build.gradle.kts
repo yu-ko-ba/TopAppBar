@@ -1,3 +1,4 @@
+import com.vanniktech.maven.publish.SonatypeHost
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -5,8 +6,7 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
-
-    `maven-publish`
+    alias(libs.plugins.vanniktech.publish)
 }
 
 apply(plugin = "com.android.library")
@@ -78,27 +78,23 @@ android {
 }
 
 afterEvaluate {
-    publishing {
-        publications {
-            register<MavenPublication>("release") {
-                from(components["release"])
-                groupId = "dev.yuyuyuyuyu"
-                artifactId = "topappbar"
-                version = "0.1.0"
-                pom {
-                    name = "TopAppBar"
-                    licenses {
-                        license {
-                            name = "MIT"
-                            url =
-                                "https://raw.githubusercontent.com/yu-ko-ba/CreateTypographyFromFontName/refs/heads/main/LICENSE"
-                        }
-                    }
-                    scm {
-                        url = "https://github.com/yu-ko-ba/TopAppBar"
-                    }
+    mavenPublishing {
+        publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+
+        coordinates(group.toString(), "topappbar", version.toString())
+        pom {
+            name = "TopAppBar"
+            licenses {
+                license {
+                    name = "MIT"
+                    url =
+                        "https://raw.githubusercontent.com/yu-ko-ba/CreateTypographyFromFontName/refs/heads/main/LICENSE"
                 }
+            }
+            scm {
+                url = "https://github.com/yu-ko-ba/TopAppBar"
             }
         }
     }
 }
+
