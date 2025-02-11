@@ -81,7 +81,7 @@ afterEvaluate {
     mavenPublishing {
         publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
 
-        coordinates(group.toString(), "topappbar", version.toString())
+        coordinates("dev.yuyuyuyuyu", "topappbar", "0.1.0")
         pom {
             name = "TopAppBar"
             licenses {
