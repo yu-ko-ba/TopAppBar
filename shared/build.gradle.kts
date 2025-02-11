@@ -5,7 +5,12 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+
+    `maven-publish`
 }
+
+apply(plugin = "com.android.library")
+apply(plugin = "maven-publish")
 
 kotlin {
     androidTarget {
@@ -56,9 +61,44 @@ android {
     compileSdk = 35
     defaultConfig {
         minSdk = 21
+        aarMetadata {
+            minCompileSdk = 21
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+        }
+    }
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            register<MavenPublication>("release") {
+                from(components["release"])
+                groupId = "dev.yuyuyuyuyu"
+                artifactId = "topappbar"
+                version = "0.1.0"
+                pom {
+                    name = "TopAppBar"
+                    licenses {
+                        license {
+                            name = "MIT"
+                            url =
+                                "https://raw.githubusercontent.com/yu-ko-ba/CreateTypographyFromFontName/refs/heads/main/LICENSE"
+                        }
+                    }
+                    scm {
+                        url = "https://github.com/yu-ko-ba/TopAppBar"
+                    }
+                }
+            }
+        }
     }
 }
