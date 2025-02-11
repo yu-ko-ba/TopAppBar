@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "TopAppBar"
 include(":shared")
+include(":app")
